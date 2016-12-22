@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">Ant</string>
+    <string name="user_login">用户登录</string>
+    <string name="user_name">用户账号</string>
+    <string name="user_pwd">密  码</string>
+    <string name="username_hint">用户名/手机号</string>
+    <string name="userpwd_hint">请输入密码</string>
+    <string name="go_register"><u>还没有账号?去注册</u></string>
+    <string name="forget_pwd"><u>忘记密码?</u></string>
+    <string name="login">登录</string>
+    <string name="title_home">首页</string>
+    <string name="title_device">设备</string>
+    <string name="title_mine">我的</string>
+    <string name="my_account">我的账号</string>
+    <string name="my_notice">我的公告</string>
+    <string name="my_task">我的任务</string>
+    <string name="set">设置</string>
+    <string name="oppointment">预约</string>
+    <string name="start_noise">开始发声</string>
+    <string name="close_noise">关闭发声</string>
+    <string name="cancel">取消</string>
+    <string name="select_device">请选择设备</string>
+
+</resources>

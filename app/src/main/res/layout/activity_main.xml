@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.wangliang161220.ant.activity.MainActivity">
+    <TextView
+        android:id="@+id/main_tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:gravity="center_horizontal|bottom"
+        android:paddingBottom="6dp"
+        android:background="@color/blue"
+        android:textColor="@color/white"
+        android:textSize="22sp" />
+    <FrameLayout
+        android:id="@+id/fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/main_tv_title"
+        android:layout_above="@+id/main_ll_bottom"></FrameLayout>
+
+    <!--为了留出padding位置，用一个布局将自定义的view包起来-->
+    <LinearLayout
+        android:id="@+id/main_ll_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/cambridgeWhite"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp">
+    <com.wangliang161220.ant.views.RadioViewGroup
+        android:id="@+id/main_radioviewgroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></com.wangliang161220.ant.views.RadioViewGroup>
+    </LinearLayout>
+</RelativeLayout>
