@@ -57,8 +57,8 @@ public class BaseActivity extends AppCompatActivity {
         universalBarToolbar.setNavigationIcon(id);
     }
     public void setTitle(String title){
-        universalBarTvTitle.setText(title);
         universalBarToolbar.setTitle("");
+        universalBarTvTitle.setText(title);
     }
     public void setTitleTextColor(int id){
         universalBarToolbar.setTitleTextColor(id);

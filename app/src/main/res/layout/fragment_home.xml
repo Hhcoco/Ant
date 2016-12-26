@@ -6,16 +6,9 @@
     android:background="@color/white"
     android:orientation="vertical"
     tools:context="com.wangliang161220.ant.activity.LoginActivity">
-    <TextView
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/fragment_home_rv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:textColor="@color/white"
-        android:text="fragment1"
-        android:background="@drawable/btn_login_selector"
-        android:gravity="center_horizontal"
-        android:layout_marginTop="32dp"
-        android:textSize="22sp"/>
+        android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
 
 </LinearLayout>
