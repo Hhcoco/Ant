@@ -14,11 +14,15 @@ import com.wangliang161220.ant.fragments.FragmentHome;
 import com.wangliang161220.ant.fragments.FragmentMine;
 import com.wangliang161220.ant.views.PostPosition;
 import com.wangliang161220.ant.views.RadioViewGroup;
+import com.wangliang161220.rxbus.RxBus;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import rx.Observable;
+import rx.Subscription;
+import rx.functions.Action1;
 
 public class MainActivity extends BaseActivity {
 
@@ -54,6 +58,18 @@ public class MainActivity extends BaseActivity {
         ButterKnife.bind(this);
         initView(savedInstanceState);
 
+        RxBus.getIntance().sendObject(MainActivity.class.getName() , "hh");
+        RxBus.getIntance().doSubscribe(MainActivity.class.getName() , new Action1<Object>() {
+            @Override
+            public void call(Object o) {
+                Log.v("outt", "123结果1：" + o.toString());
+            }
+        }, new Action1<Throwable>() {
+            @Override
+            public void call(Throwable throwable) {
+                Log.v("outt", "123错误结果1：" + throwable.toString());
+            }
+        });
     }
 
     public void initView(Bundle savedInstanceState) {
@@ -123,4 +139,11 @@ public class MainActivity extends BaseActivity {
      * which is packaged with this application.
      */
     public native String stringFromJNI();
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        RxBus.getIntance().unSubscribe(MainActivity.class.getName());
+    }
+
 }

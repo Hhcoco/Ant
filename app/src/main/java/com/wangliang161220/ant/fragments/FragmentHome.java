@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,17 +14,22 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.wangliang161220.ant.R;
 import com.wangliang161220.ant.beans.ProjectDigest;
+import com.wangliang161220.rxbus.RxBus;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import rx.functions.Action1;
 
 /**
  * Created by wangliang on 2016/12/21.
  */
 
 public class FragmentHome extends Fragment {
+
+    private BaseQuickAdapter mAdapter;
+
     @BindView(R.id.fragment_home_rv)
     RecyclerView fragmentHomeRv;
 
@@ -50,17 +56,33 @@ public class FragmentHome extends Fragment {
             arrayList.add(projectDigest);
         }
 
-        fragmentHomeRv.setLayoutManager(new LinearLayoutManager(getContext()));
-        fragmentHomeRv.setAdapter(new BaseQuickAdapter<ProjectDigest , BaseViewHolder>(R.layout.item_list_device , arrayList) {
+        RxBus.getIntance().doSubscribe(FragmentHome.class.getName(), new Action1<Object>() {
             @Override
-            protected void convert(BaseViewHolder baseViewHolder, ProjectDigest o) {
-                baseViewHolder.setImageResource(R.id.item_list_device_img , o.getImgId())
-                              .setText(R.id.item_list_device_tv_title , o.getProjectTitle())
-                              .setText(R.id.item_list_device_tv_overview , o.getProjectDigest())
-                              .setText(R.id.item_list_device_tv_time , o.getProjectTime());
+            public void call(Object o) {
+                if(o != null){
+                    Log.v("outt" , "收到消息"+o.toString());
+                    arrayList.remove(0);
+                    mAdapter.notifyDataSetChanged();
+                }
+            }
+        }, new Action1<Throwable>() {
+            @Override
+            public void call(Throwable throwable) {
 
             }
         });
+        mAdapter = new BaseQuickAdapter<ProjectDigest , BaseViewHolder>(R.layout.item_list_device , arrayList) {
+            @Override
+            protected void convert(BaseViewHolder baseViewHolder, ProjectDigest o) {
+                baseViewHolder.setImageResource(R.id.item_list_device_img , o.getImgId())
+                        .setText(R.id.item_list_device_tv_title , o.getProjectTitle())
+                        .setText(R.id.item_list_device_tv_overview , o.getProjectDigest())
+                        .setText(R.id.item_list_device_tv_time , o.getProjectTime());
+
+            }
+        };
+        fragmentHomeRv.setLayoutManager(new LinearLayoutManager(getContext()));
+        fragmentHomeRv.setAdapter(mAdapter);
 
         return view;
     }

@@ -3,6 +3,7 @@ package com.wangliang161220.ant.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -11,13 +12,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.wang.avi.AVLoadingIndicatorView;
 import com.wangliang161220.ant.R;
 import com.wangliang161220.ant.api.Login;
 import com.wangliang161220.ant.beans.BaseModel;
+import com.wangliang161220.ant.beans.UserInfo;
+import com.wangliang161220.ant.config.Config;
+import com.wangliang161220.ant.utils.ACache;
 import com.wangliang161220.ant.utils.AbstractAnimationListener;
 import com.wangliang161220.ant.utils.AnimationListener;
 import com.wangliang161220.ant.utils.Tools;
+import com.wangliang161220.rxbus.RxBus;
 
 import java.util.ArrayList;
 
@@ -28,6 +34,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
+import rx.Observable;
+import rx.Observer;
+import rx.Subscription;
+import rx.functions.Action0;
+import rx.functions.Action1;
+import rx.functions.Func1;
+import rx.subjects.SerializedSubject;
 
 public class LoginActivity extends BaseActivity {
 
@@ -44,6 +57,12 @@ public class LoginActivity extends BaseActivity {
 
     private Context mContext;
 
+    private SerializedSubject serializedSubject;
+
+
+    /**
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +81,7 @@ public class LoginActivity extends BaseActivity {
                 cancel();
                 break;
             case R.id.login_tv_login:
+
                 login();
                 break;
         }
@@ -86,7 +106,7 @@ public class LoginActivity extends BaseActivity {
     public  void login(){
 
         Retrofit retrofit = Tools.getRetrofit();
-        Call<BaseModel> call = retrofit.create(Login.class).login("1" , "2");
+        Call<BaseModel> call = retrofit.create(Login.class).login("test001" , "123456");
         if(!loginLoadingIndicator.isShown())
             loginLoadingIndicator.setVisibility(View.VISIBLE);
         call.enqueue(new Callback<BaseModel>() {
@@ -94,6 +114,7 @@ public class LoginActivity extends BaseActivity {
             public void onResponse(Call<BaseModel> call, Response<BaseModel> response) {
                 BaseModel baseModel = response.body();
                 if(0 == baseModel.getErrorNo()){
+                    Tools.saveData(mContext , Config.USERINFO, baseModel.getData());
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                     finish();
                 }else {

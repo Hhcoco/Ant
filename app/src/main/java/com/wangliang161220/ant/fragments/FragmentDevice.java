@@ -19,6 +19,7 @@ import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.wangliang161220.ant.R;
 import com.wangliang161220.ant.activity.LocateActivity;
 import com.wangliang161220.ant.activity.TestActivity;
+import com.wangliang161220.rxbus.RxBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +53,8 @@ public class FragmentDevice extends Fragment {
         data.add(new Status(R.drawable.monitor , "实时监控"));
         QuickAdapter adapter = new QuickAdapter(R.layout.fragment_device_item , data);
         fragmentDeviceRv.setAdapter(adapter);
+
+        RxBus.getIntance().sendObject(FragmentHome.class.getName() , "你好");
 
         fragmentDeviceRv.addOnItemTouchListener(new OnItemClickListener() {
             @Override
