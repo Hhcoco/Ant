@@ -20,20 +20,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/main_tv_title"
-        android:layout_above="@+id/main_ll_bottom"></FrameLayout>
+        android:layout_above="@+id/main_radioviewgroup"></FrameLayout>
 
     <!--为了留出padding位置，用一个布局将自定义的view包起来-->
-    <LinearLayout
-        android:id="@+id/main_ll_bottom"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="@color/cambridgeWhite"
-        android:paddingBottom="5dp"
-        android:paddingTop="5dp">
     <com.wangliang161220.ant.views.RadioViewGroup
         android:id="@+id/main_radioviewgroup"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"></com.wangliang161220.ant.views.RadioViewGroup>
-    </LinearLayout>
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/cambridgeWhite"></com.wangliang161220.ant.views.RadioViewGroup>
 </RelativeLayout>

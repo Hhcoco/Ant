@@ -1,6 +1,7 @@
 package com.wangliang161220.ant.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,10 +10,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.wangliang161220.ant.R;
+import com.wangliang161220.ant.activity.LocateActivity;
+import com.wangliang161220.ant.activity.TestActivity;
 import com.wangliang161220.ant.beans.ProjectDigest;
 import com.wangliang161220.rxbus.RxBus;
 
@@ -83,6 +88,17 @@ public class FragmentHome extends Fragment {
         };
         fragmentHomeRv.setLayoutManager(new LinearLayoutManager(getContext()));
         fragmentHomeRv.setAdapter(mAdapter);
+        fragmentHomeRv.addOnItemTouchListener(new OnItemClickListener() {
+            @Override
+            public void onSimpleItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
+                switch (i){
+                    case 0:
+                        Toast.makeText(getContext() , "CurrentItem"+i , Toast.LENGTH_LONG).show(); break;
+                    case 1:
+                        Toast.makeText(getContext() , "CurrentItem"+i , Toast.LENGTH_LONG).show(); break;
+                }
+            }
+        });
 
         return view;
     }

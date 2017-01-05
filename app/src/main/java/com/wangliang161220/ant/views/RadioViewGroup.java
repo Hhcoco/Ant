@@ -4,10 +4,15 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.EventLog;
+import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.wangliang161220.ant.R;
 
 /**
  * Created by wangliang on 2016/8/7.
@@ -53,6 +58,9 @@ public class RadioViewGroup extends LinearLayout {
             if(drawables.length == txts.length)
                 this.setWeightSum(drawables.length);
             mViews = new TextView[drawables.length];
+
+            if(mChildWidth == 0)
+                invalidate();
         }
     }
     public void setPostPosition(PostPosition postPosition){
@@ -82,13 +90,7 @@ public class RadioViewGroup extends LinearLayout {
             mViews[i].setTextColor(getResources().getColor(color));
             mViews[i].setTextSize(textSize);
             mViews[i].setTag(i);
-            mViews[i].setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    setSelected((int) v.getTag());
-                    postPosition.position((int)v.getTag());
-                }
-            });
+            mViews[i].setPadding(0 , 10 , 0 , 10);
             addView(mViews[i]);
         }
        setSelected(0);
@@ -117,11 +119,17 @@ public class RadioViewGroup extends LinearLayout {
     }
 
     @Override
+    public boolean onInterceptTouchEvent(MotionEvent event){
+        setSelected((int)event.getX()/mChildWidth);
+        postPosition.position((int)event.getX()/mChildWidth);
+        return true;
+    }
+
+    @Override
     protected void onMeasure(int widthMeasureSpec , int heightMeasureSpec){
         super.onMeasure(widthMeasureSpec , heightMeasureSpec);
         mWidth = MeasureSpec.getSize(widthMeasureSpec);
         measureChildren(widthMeasureSpec , heightMeasureSpec);
-        //mWidth =(int) (mWidth/density);
         this.mChildWidth = mWidth/mDrawables.length;
     }
     @Override
@@ -130,7 +138,6 @@ public class RadioViewGroup extends LinearLayout {
         for(int i=0 ; i<getChildCount();i++){
             View view = getChildAt(i);
             int cWidth = view.getMeasuredWidth();
-            //view.layout(i*mChildWidth , 0 , (i+1)*mChildWidth , getHeight());
             view.layout(i*mChildWidth+(mChildWidth - cWidth)/2 , 0 , (i+1)*mChildWidth - (mChildWidth - cWidth)/2 , getHeight());
         }
     }
